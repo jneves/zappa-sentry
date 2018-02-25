@@ -5,7 +5,6 @@
 #    pip-compile --output-file requirements.txt requirements.in
 #
 click==6.7                # via pip-tools
-contextlib2==0.5.5        # via raven
 first==2.0.1              # via pip-tools
 pip-tools==1.11.0
 raven==6.5.0
