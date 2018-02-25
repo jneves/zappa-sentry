@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
   name = 'zappa_sentry',
   packages = ['zappa_sentry'],
-  version = '0.1.4',
+  version = '0.1.5',
   description = 'Easy integration with sentry for zappa apps',
   author = 'João Miguel Neves',
   author_email = 'joao@silvaneves.org',
