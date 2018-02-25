@@ -18,11 +18,21 @@ def unhandled_exceptions(e, event, context):
         # not deployed, probably a test
         pass
 
-    print(event)
-    print(context)
+    if 'httpMethod' in event:
+        extra_tags = {
+            'http_method': event['httpMethod'],
+            'path': event['path']
+        }
+        if 'Host' in event['headers']:
+            extra_tags['host'] = event['headers']['Host']
+        if 'User-Agent' in event['headers']:
+            extra_tags['user_agent'] = event['headers']['User-Agent']
+        if 'requestContext' in event and 'stage' in event['requestContext']:
+            extra_tags['stage'] = event['requestContext']['stage']
+        raven_client.context.merge({'tags': extra_tags})
+
     raven_client.context.merge({'extra': {
-        'event': event,
-        'context': context
+        'event': event
     }})
 
     raven_client.captureException()
