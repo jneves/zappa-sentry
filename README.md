@@ -1,6 +1,6 @@
-zappa-sentry
+# zappa-sentry
 
-Sentry handler with defaults for zappa lambdas.
+Sentry handler configuration with defaults for zappa lambdas.
 
 # Installation
 
