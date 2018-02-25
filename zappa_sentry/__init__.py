@@ -18,6 +18,8 @@ def unhandled_exceptions(e, event, context):
         # not deployed, probably a test
         pass
 
+    print(event)
+    print(context)
     raven_client.context.merge({'extra': {
         'event': event,
         'context': context
