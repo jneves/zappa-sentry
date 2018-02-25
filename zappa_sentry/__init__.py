@@ -2,8 +2,9 @@ import json
 import os
 
 from raven import Client
+from raven.transport.http import HTTPTransport
 
-raven_client = Client(os.environ['SENTRY_DSN'])
+raven_client = Client(os.environ['SENTRY_DSN'], transport=HTTPTransport)
 
 
 def unhandled_exceptions(e, event, context):
