@@ -11,7 +11,7 @@ def unhandled_exceptions(e, event, context):
     package_info = json.load(package_info_file)
     package_info_file.close()
 
-    #raven_client.context.merge({'tags': package_info})
+    raven_client.context.merge({'tags': package_info})
     #raven_client.context.merge({'extra': {
     #    'event': event,
     #    'context': context
