@@ -17,5 +17,5 @@ def unhandled_exceptions(e, event, context):
     #    'context': context
     #}})
 
-    raven_client.captureException(e)
+    raven_client.captureException()
     return True
