@@ -1,13 +1,25 @@
+from configparser import ConfigParser
 import json
 import os
 
 from raven import Client
 from raven.transport.http import HTTPTransport
 
-raven_client = Client(os.environ['SENTRY_DSN'], transport=HTTPTransport)
+
+raven_config = ConfigParser(os.environ)
+_raven_client = None
+
+
+def get_raven_client():
+    if not _raven_client:
+        _raven_client = Client(raven_config.get('DEFAULT', 'SENTRY_DSN'), transport=HTTPTransport)
+    return _raven_client
 
 
 def unhandled_exceptions(e, event, context):
+    """Exception handler reports exceptions to sentry but does not capture them."""
+    raven_client = get_raven_client()
+
     try:
         package_info_file = open('package_info.json', 'r')
         package_info = json.load(package_info_file)
@@ -36,4 +48,11 @@ def unhandled_exceptions(e, event, context):
     }})
 
     raven_client.captureException()
+    return False
+
+
+def capture_exceptions(e, event, context):
+    """Exception handler that makes exceptions disappear after processing them."""
+
+    unhandled_exceptions(e, event, context)
     return True
