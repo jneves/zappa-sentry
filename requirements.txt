@@ -4,8 +4,17 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
+certifi==2018.1.18        # via requests
+chardet==3.0.4            # via requests
 click==6.7                # via pip-tools
 first==2.0.1              # via pip-tools
+idna==2.6                 # via requests
 pip-tools==1.11.0
+pkginfo==1.4.2            # via twine
 raven==6.5.0
+requests-toolbelt==0.8.0  # via twine
+requests==2.18.4          # via requests-toolbelt, twine
 six==1.11.0               # via pip-tools
+tqdm==4.19.8              # via twine
+twine==1.10.0
+urllib3==1.22             # via requests
