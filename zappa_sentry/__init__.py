@@ -1,6 +1,7 @@
 from configparser import ConfigParser
 import json
 import os
+import sys
 
 from raven import Client
 from raven.transport.http import HTTPTransport
@@ -15,7 +16,8 @@ this._raven_client = None
 
 def get_raven_client():
     if not this._raven_client:
-        this._raven_client = Client(this.raven_config.get('DEFAULT', 'SENTRY_DSN'), transport=HTTPTransport)
+        this._raven_client = Client(this.raven_config.get('DEFAULT', 'SENTRY_DSN'),
+                                    transport=HTTPTransport)
     return this._raven_client
 
 
@@ -29,7 +31,7 @@ def unhandled_exceptions(e, event, context):
         package_info_file.close()
 
         raven_client.context.merge({'tags': package_info})
-    except:
+    except OSError:
         # not deployed, probably a test
         pass
 

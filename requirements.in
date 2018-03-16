@@ -1,3 +1,4 @@
 pip-tools
 raven
 twine
+flake8
