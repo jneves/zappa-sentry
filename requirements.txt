@@ -4,9 +4,11 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-certifi==2018.1.18        # via requests
+certifi==2018.1.18        # via requests, sentry-sdk
 chardet==3.0.4            # via requests
 click==6.7                # via pip-tools
+configparser==3.5.0       # via flake8
+enum34==1.1.6             # via flake8
 first==2.0.1              # via pip-tools
 flake8==3.5.0
 idna==2.6                 # via requests
@@ -15,10 +17,10 @@ pip-tools==1.11.0
 pkginfo==1.4.2            # via twine
 pycodestyle==2.3.1        # via flake8
 pyflakes==1.6.0           # via flake8
-raven==6.5.0
 requests-toolbelt==0.8.0  # via twine
 requests==2.18.4          # via requests-toolbelt, twine
+sentry-sdk==0.5.4
 six==1.11.0               # via pip-tools
 tqdm==4.19.8              # via twine
 twine==1.10.0
-urllib3==1.22             # via requests
+urllib3==1.22             # via requests, sentry-sdk

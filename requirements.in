@@ -1,4 +1,4 @@
 pip-tools
-raven
+sentry-sdk
 twine
 flake8

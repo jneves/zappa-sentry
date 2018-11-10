@@ -1,63 +1,47 @@
+# -*- coding: utf-8 -*-
 from configparser import ConfigParser
 import json
 import os
-import sys
 
-from raven import Client
-from raven.transport.http import HTTPTransport
-
-
-# Cache this value and clients in the module to reduce overhead
-this = sys.modules[__name__]
-
-this.raven_config = ConfigParser(os.environ)
-this._raven_client = None
-
-
-def get_raven_client():
-    if not this._raven_client:
-        this._raven_client = Client(this.raven_config.get('DEFAULT', 'SENTRY_DSN'),
-                                    transport=HTTPTransport)
-    return this._raven_client
+import sentry_sdk
+from sentry_sdk import capture_exception, configure_scope
 
 
 def unhandled_exceptions(e, event, context):
-    """Exception handler reports exceptions to sentry but does not capture them."""
-    raven_client = get_raven_client()
+    "Exception handler reports exceptions to sentry but does not capture them."
+    sentry_config = ConfigParser(os.environ)
+    sentry_sdk.init(sentry_config.get('DEFAULT', 'SENTRY_DSN'))
 
-    try:
-        package_info_file = open('package_info.json', 'r')
-        package_info = json.load(package_info_file)
-        package_info_file.close()
+    with configure_scope() as scope:
+        try:
+            package_info_file = open('package_info.json', 'r')
+            package_info = json.load(package_info_file)
+            package_info_file.close()
 
-        raven_client.context.merge({'tags': package_info})
-    except OSError:
-        # not deployed, probably a test
-        pass
+            for key, value in package_info.items():
+                scope.set_tag(key, value)
+        except OSError:
+            # not deployed, probably a test
+            pass
 
-    if 'httpMethod' in event:
-        extra_tags = {
-            'http_method': event['httpMethod'],
-            'path': event['path']
-        }
+        if 'httpMethod' in event:
+            scope.set_tag('http_method', event['httpMethod'])
+            scope.set_tag('path', event['path'])
         if 'Host' in event['headers']:
-            extra_tags['host'] = event['headers']['Host']
+            scope.set_tag('host', event['headers']['Host'])
         if 'User-Agent' in event['headers']:
-            extra_tags['user_agent'] = event['headers']['User-Agent']
+            scope.set_tag('user_agent', event['headers']['User-Agent'])
         if 'requestContext' in event and 'stage' in event['requestContext']:
-            extra_tags['stage'] = event['requestContext']['stage']
-        raven_client.context.merge({'tags': extra_tags})
+            scope.set_tag('stage', event['requestContext']['stage'])
 
-    raven_client.context.merge({'extra': {
-        'event': event
-    }})
+        scope.set_extra('event', event)
 
-    raven_client.captureException()
+    capture_exception(e)
     return False
 
 
 def capture_exceptions(e, event, context):
-    """Exception handler that makes exceptions disappear after processing them."""
+    "Exception handler that makes exceptions disappear after processing them."
 
     unhandled_exceptions(e, event, context)
     return True
