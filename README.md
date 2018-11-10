@@ -32,14 +32,6 @@ And that's all. Deploy your zappa function and you should see any errors appeari
 
 If you want the exception handler to capture the exception and capture it, just replace `zappa_sentry.unhandled_exceptions` by `zappa_sentry.capture_exceptions`. This version won't let the exceptions propagate.
 
-# Sentry raven client
+# Adding extra information
 
-If you need sentry's client to add extra information just do:
-
-```
-from zappa_sentry import get_raven_client
-
-raven_client = get_raven_client()
-```
-
-And you'll get an already initialized raven_client. Feel free to use to add context, tags, etc.
+Just add it to the scope as normal for the new sentry-sdk: https://docs.sentry.io/enriching-error-data/context/?platform=python
