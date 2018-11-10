@@ -2,3 +2,5 @@ pip-tools
 sentry-sdk
 twine
 flake8
+# security issue
+requests>=2.20.0
