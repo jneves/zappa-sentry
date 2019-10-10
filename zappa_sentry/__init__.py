@@ -27,12 +27,13 @@ def unhandled_exceptions(e, event, context):
         if 'httpMethod' in event:
             scope.set_tag('http_method', event['httpMethod'])
             scope.set_tag('path', event['path'])
-        if 'Host' in event['headers']:
-            scope.set_tag('host', event['headers']['Host'])
-        if 'User-Agent' in event['headers']:
-            scope.set_tag('user_agent', event['headers']['User-Agent'])
-        if 'requestContext' in event and 'stage' in event['requestContext']:
-            scope.set_tag('stage', event['requestContext']['stage'])
+        if 'headers' in event:
+            if 'Host' in event['headers']:
+                scope.set_tag('host', event['headers']['Host'])
+            if 'User-Agent' in event['headers']:
+                scope.set_tag('user_agent', event['headers']['User-Agent'])
+            if 'requestContext' in event and 'stage' in event['requestContext']:
+                scope.set_tag('stage', event['requestContext']['stage'])
 
         scope.set_extra('event', event)
 
