@@ -7,14 +7,14 @@ with open('README.md') as readme_file:
 setup(
     name = 'zappa_sentry',
     packages = ['zappa_sentry'],
-    version = '0.3.1',
+    version = '0.4.1',
     description = 'Easy integration with sentry for zappa apps',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author = 'João Miguel Neves',
     author_email = 'joao@silvaneves.org',
     url = 'https://github.com/jneves/zappa-sentry',
-    download_url = 'https://github.com/jneves/zappa-sentry/archive/0.2.3.tar.gz',
+    download_url = 'https://github.com/jneves/zappa-sentry/archive/0.4.1.tar.gz',
     keywords = 'logging zappa sentry',
     install_requires=[
         'sentry-sdk'
