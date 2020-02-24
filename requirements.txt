@@ -4,7 +4,7 @@
 #
 #    pip-compile
 #
-bleach==3.1.0             # via readme-renderer
+bleach==3.1.1             # via readme-renderer
 certifi==2019.9.11        # via requests, sentry-sdk
 chardet==3.0.4            # via requests
 click==7.0                # via pip-tools
@@ -29,4 +29,4 @@ urllib3==1.25.6           # via requests, sentry-sdk
 webencodings==0.5.1       # via bleach
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.4.0        # via twine
+# setuptools
